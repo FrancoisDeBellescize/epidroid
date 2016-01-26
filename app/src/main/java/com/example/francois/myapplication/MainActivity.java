@@ -56,9 +56,6 @@ public class MainActivity extends Activity {
         String login = getStringFromEditText((EditText) findViewById(R.id.login));
         String password = getStringFromEditText((EditText) findViewById(R.id.password));
 
-        Log.e("login : ", login);
-        Log.e("pwd : ", password);
-
         TextView error = (TextView) findViewById(R.id.error);
 
         SharedPreferences settings = getSharedPreferences("connection", Context.MODE_PRIVATE);

@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -27,7 +31,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -38,22 +45,38 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.acl.Group;
 import java.util.concurrent.CountDownLatch;
 
+import ConnectionObject.AlertsObject;
 import ConnectionObject.InfoObject;
+import ConnectionObject.PhotoObject;
 import cz.msebera.android.httpclient.Header;
 
 public class DashBoard extends FragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
     private InfoObject infos;
+    private AlertsObject D_alerts;
+    private PhotoObject D_photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
+
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -70,6 +93,7 @@ public class DashBoard extends FragmentActivity
                 Gson gson = new GsonBuilder().create();
                 infos = gson.fromJson(errorResponse.toString(), InfoObject.class);
 
+                LoadInfos();
                 ChangeFragment(new ModulesFragment());
             }
 
@@ -157,6 +181,95 @@ public class DashBoard extends FragmentActivity
         }
         ChangeFragment(fragment);
         return true;
+    }
+
+    public void LoadInfos() {
+
+        TextView TvLogin = (TextView) findViewById(R.id.profil_login);
+        TvLogin.setText(infos.getInfos().getLogin());
+        TextView TvEmail = (TextView) findViewById(R.id.profil_email);
+        TvEmail.setText(infos.getInfos().getInternal_email());
+
+        LinearLayout profilLayout = (LinearLayout) findViewById(R.id.ProfilLayout);
+
+//        AlertsObject alerts = getAlerts();
+
+//        Log.e("test : ", alerts.getTitle());
+
+//        for (String alert : alerts.getTitle()) {
+//            TextView tmp = new TextView(this);
+//            tmp.setText(alert);
+//            profilLayout.addView(tmp);
+//        }
+//
+//        PhotoObject photo = getPhoto();
+//
+//        try {
+//            ImageView i = (ImageView) findViewById(R.id.profil_image);
+//            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(photo.getUrl()).getContent());
+//            i.setImageBitmap(bitmap);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public PhotoObject getPhoto() {
+
+        SharedPreferences settings = getSharedPreferences("connection", Context.MODE_PRIVATE);
+        String token = settings.getString("token", null);
+        String url = "https://epitech-api.herokuapp.com/photo";
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("token", token);
+        params.put("login", infos.getInfos().getLogin());
+        client.get(url, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject errorResponse) {
+
+                Gson gson = new GsonBuilder().create();
+                D_photo = gson.fromJson(errorResponse.toString(), PhotoObject.class);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+
+                Log.w("Error : ", "Can't get Infos");
+                Intent intent = new Intent(DashBoard.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        return (D_photo);
+    }
+
+    public AlertsObject getAlerts() {
+
+        SharedPreferences settings = getSharedPreferences("connection", Context.MODE_PRIVATE);
+        String token = settings.getString("token", null);
+        String url = "https://epitech-api.herokuapp.com/alerts";
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("token", token);
+        client.get(url, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject errorResponse) {
+
+                Gson gson = new GsonBuilder().create();
+                D_alerts = gson.fromJson(errorResponse.toString(), AlertsObject.class);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+
+                Log.w("Error : ", "Can't get Alerts");
+                Intent intent = new Intent(DashBoard.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        return (D_alerts);
     }
 
     public void ChangeFragment(Fragment fragment) {
