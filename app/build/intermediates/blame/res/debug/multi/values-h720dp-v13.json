@@ -1,5 +1,29 @@
 [
     {
+        "outputFile": "C:\\Users\\Naarsh\\projects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\values-h720dp-v13\\values-h720dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 66,
+                    "endOffset": 117
+                },
+                "from": {
+                    "file": "C:\\Users\\Naarsh\\projects\\epidroid\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-h720dp\\values-h720dp.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 232,
+                        "endColumn": 66,
+                        "endOffset": 294
+                    }
+                }
+            }
+        ]
+    },
+    {
         "outputFile": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\values-h720dp-v13\\values-h720dp-v13.xml",
         "map": [
             {
@@ -36,30 +60,6 @@
                 },
                 "from": {
                     "file": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-h720dp\\values-h720dp.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 232,
-                        "endColumn": 66,
-                        "endOffset": 294
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "C:\\Users\\Naarsh\\projects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\values-h720dp-v13\\values-h720dp-v13.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 66,
-                    "endOffset": 117
-                },
-                "from": {
-                    "file": "C:\\Users\\Naarsh\\projects\\epidroid\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-h720dp\\values-h720dp.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
