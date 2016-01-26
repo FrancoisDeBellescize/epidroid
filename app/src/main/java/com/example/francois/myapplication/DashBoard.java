@@ -192,6 +192,7 @@ public class DashBoard extends FragmentActivity
 
         LinearLayout profilLayout = (LinearLayout) findViewById(R.id.ProfilLayout);
 
+        String tmp = null;
 //        AlertsObject alerts = getAlerts();
 
 //        Log.e("test : ", alerts.getTitle());
