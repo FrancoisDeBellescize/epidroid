@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -43,6 +45,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -65,21 +68,11 @@ public class DashBoard extends FragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private InfoObject infos;
-    private AlertsObject D_alerts;
-    private PhotoObject D_photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
-
-
-
-        
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -95,7 +88,6 @@ public class DashBoard extends FragmentActivity
 
                 Gson gson = new GsonBuilder().create();
                 infos = gson.fromJson(errorResponse.toString(), InfoObject.class);
-
                 LoadInfos();
                 ChangeFragment(new ModulesFragment());
             }
@@ -193,35 +185,11 @@ public class DashBoard extends FragmentActivity
         TextView TvEmail = (TextView) findViewById(R.id.profil_email);
         TvEmail.setText(infos.getInfos().getInternal_email());
 
-        LinearLayout profilLayout = (LinearLayout) findViewById(R.id.ProfilLayout);
-
-        String tmp = null;
-
-//        AlertsObject alerts = getAlerts();
-
-//        Log.e("test : ", alerts.getTitle());
-
-//        for (String alert : alerts.getTitle()) {
-//            TextView tmp = new TextView(this);
-//            tmp.setText(alert);
-//            profilLayout.addView(tmp);
-//        }
-//
-//        D_photo = getPhoto();
-
-//        try {
-//            ImageView i = (ImageView) findViewById(R.id.profil_image);
-//            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(D_photo.getUrl()).getContent());
-//            i.setImageBitmap(bitmap);
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        LoadPhoto();
+        LoadAlerts();
     }
 
-    public PhotoObject getPhoto() {
-
+    public void LoadPhoto() {
         SharedPreferences settings = getSharedPreferences("connection", Context.MODE_PRIVATE);
         String token = settings.getString("token", null);
         String url = "https://epitech-api.herokuapp.com/photo";
@@ -234,7 +202,9 @@ public class DashBoard extends FragmentActivity
             public void onSuccess(int statusCode, Header[] headers, JSONObject errorResponse) {
 
                 Gson gson = new GsonBuilder().create();
-                D_photo = gson.fromJson(errorResponse.toString(), PhotoObject.class);
+                PhotoObject photo = gson.fromJson(errorResponse.toString(), PhotoObject.class);
+                ImageView i = (ImageView) findViewById(R.id.profil_image);
+                new DownloadImageTask(i).execute(photo.getUrl());
             }
 
             @Override
@@ -246,11 +216,9 @@ public class DashBoard extends FragmentActivity
                 startActivity(intent);
             }
         });
-        return (D_photo);
     }
 
-    public AlertsObject getAlerts() {
-
+    public void LoadAlerts() {
         SharedPreferences settings = getSharedPreferences("connection", Context.MODE_PRIVATE);
         String token = settings.getString("token", null);
         String url = "https://epitech-api.herokuapp.com/alerts";
@@ -259,10 +227,21 @@ public class DashBoard extends FragmentActivity
         params.put("token", token);
         client.get(url, params, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject errorResponse) {
+            public void onSuccess(int statusCode, Header[] headers, JSONArray errorResponse) {
 
                 Gson gson = new GsonBuilder().create();
-                D_alerts = gson.fromJson(errorResponse.toString(), AlertsObject.class);
+                AlertsObject[] alerts = gson.fromJson(errorResponse.toString(), AlertsObject[].class);
+
+                LinearLayout profilLayout = (LinearLayout) findViewById(R.id.ProfilLayout);
+
+                for (AlertsObject alert : alerts) {
+                    TextView tmp = new TextView(DashBoard.this);
+                    tmp.setTextSize(10);
+                    tmp.setTextColor(Color.parseColor("#FFFFFF"));
+                    tmp.setText(alert.getTitle());
+                    profilLayout.addView(tmp);
+                    profilLayout.invalidate();
+                }
             }
 
             @Override
@@ -274,7 +253,31 @@ public class DashBoard extends FragmentActivity
                 startActivity(intent);
             }
         });
-        return (D_alerts);
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 
     public void ChangeFragment(Fragment fragment) {
