@@ -2,13 +2,13 @@ package Entity;
 
 public class History {
     private String title;
-    private String start;
+    private String content;
     private String end;
     private float progress;
 
-    public History(String title, String start, String end) {
+    public History(String title, String content, String end) {
         this.title = title;
-        this.start = start;
+        this.content = content;
         this.end = end;
     }
 
@@ -20,12 +20,12 @@ public class History {
         this.title = title;
     }
 
-    public String getStart() {
-        return start;
+    public String getContent() {
+        return content;
     }
 
-    public void setStart(String start) {
-        this.start = start;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getEnd() {

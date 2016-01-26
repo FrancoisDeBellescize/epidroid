@@ -36,12 +36,8 @@ public class MainActivity extends Activity {
 
         String login = settings.getString("login", null);
 
-<<<<<<< HEAD
-        if (login != null)
-        {
-=======
+
         if (login != null) {
->>>>>>> ca8417f7206c6ebb4a76474a8a59343644c39e74
             EditText edit_login = (EditText) findViewById(R.id.login);
             edit_login.setText(login);
             findViewById(R.id.password).requestFocus();
