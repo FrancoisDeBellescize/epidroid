@@ -43,7 +43,7 @@ public class HistoryFragment extends Fragment {
         infos = ((DashBoard) getActivity()).getInfos();
         if (infos != null)
             for (InfoObject.HistoryObject history : infos.getHistory()) {
-                histories.add(new History(history.getTitle(), history.getContent(), history.getUser().getTitle()));
+                histories.add(new History(history.getTitle(), history.getContent(), history.getDate()));
         }
         else
             Log.w("Fragment:", "null ...");
@@ -53,7 +53,7 @@ public class HistoryFragment extends Fragment {
 
         private TextView textTitle;
         private TextView textContent;
-        private TextView textEnd;
+        private TextView textDate;
         private ImageView image;
 
         //itemView est la vue correspondante à 1 cellule
@@ -64,7 +64,7 @@ public class HistoryFragment extends Fragment {
 
             textTitle = (TextView) itemView.findViewById(R.id.history_title);
             textContent = (TextView) itemView.findViewById(R.id.history_content);
-            textEnd = (TextView) itemView.findViewById(R.id.history_end);
+            textDate = (TextView) itemView.findViewById(R.id.history_date);
             image = (ImageView) itemView.findViewById(R.id.history_image);
 
         }
@@ -73,7 +73,7 @@ public class HistoryFragment extends Fragment {
         public void bind(History history) {
             textTitle.setText(history.getTitle());
             textContent.setText(history.getContent());
-            textEnd.setText(history.getEnd());
+            textDate.setText(history.getDate());
         }
     }
 
