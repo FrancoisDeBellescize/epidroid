@@ -1,19 +1,21 @@
 package Entity;
 
+import android.text.Html;
+
 public class History {
     private String title;
     private String content;
-    private String end;
+    private String date;
     private float progress;
 
-    public History(String title, String content, String end) {
+    public History(String title, String content, String date) {
         this.title = title;
         this.content = content;
-        this.end = end;
+        this.date = date;
     }
 
     public String getTitle() {
-        return title;
+        return Html.fromHtml(title).toString();
     }
 
     public void setTitle(String title) {
@@ -21,18 +23,18 @@ public class History {
     }
 
     public String getContent() {
-        return content;
+        return Html.fromHtml(content).toString();
     }
 
     public void setContent(String content) {
         this.content = content;
     }
 
-    public String getEnd() {
-        return end;
+    public String getDate() {
+        return Html.fromHtml(date).toString();
     }
 
-    public void setEnd(String end) {
-        this.end = end;
+    public void setDate(String date) {
+        this.date = date;
     }
 }

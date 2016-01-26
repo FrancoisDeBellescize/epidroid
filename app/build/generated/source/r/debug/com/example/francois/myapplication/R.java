@@ -2379,7 +2379,7 @@ containing a value of this type.
         public static final int fill_vertical=0x7f0c0021;
         public static final int fixed=0x7f0c0037;
         public static final int history_content=0x7f0c0072;
-        public static final int history_end=0x7f0c0073;
+        public static final int history_date=0x7f0c0073;
         public static final int history_image=0x7f0c0070;
         public static final int history_title=0x7f0c0071;
         public static final int home=0x7f0c0004;
