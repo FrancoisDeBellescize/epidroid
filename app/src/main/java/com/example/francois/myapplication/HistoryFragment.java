@@ -43,7 +43,7 @@ public class HistoryFragment extends Fragment {
         infos = ((DashBoard) getActivity()).getInfos();
         if (infos != null)
             for (InfoObject.HistoryObject history : infos.getHistory()) {
-                histories.add(new History(history.getTitle(), history.getUser().getTitle(), history.getContent()));
+                histories.add(new History(history.getTitle(), history.getContent(), history.getUser().getTitle()));
         }
         else
             Log.w("Fragment:", "null ...");
@@ -52,10 +52,9 @@ public class HistoryFragment extends Fragment {
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textTitle;
+        private TextView textContent;
         private TextView textEnd;
-        private TextView textStart;
         private ImageView image;
-        private ProgressBar progressBar;
 
         //itemView est la vue correspondante à 1 cellule
         public MyViewHolder(View itemView) {
@@ -63,19 +62,18 @@ public class HistoryFragment extends Fragment {
 
             //c'est ici que l'on fait nos findView
 
-            textTitle = (TextView) itemView.findViewById(R.id.title);
-            textEnd = (TextView) itemView.findViewById(R.id.end);
-            textStart = (TextView) itemView.findViewById(R.id.start);
-            image = (ImageView) itemView.findViewById(R.id.image);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.progress);
+            textTitle = (TextView) itemView.findViewById(R.id.history_title);
+            textContent = (TextView) itemView.findViewById(R.id.history_content);
+            textEnd = (TextView) itemView.findViewById(R.id.history_end);
+            image = (ImageView) itemView.findViewById(R.id.history_image);
 
         }
 
         //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
         public void bind(History history) {
             textTitle.setText(history.getTitle());
+            textContent.setText(history.getContent());
             textEnd.setText(history.getEnd());
-            textStart.setText(history.getStart());
         }
     }
 
@@ -92,7 +90,7 @@ public class HistoryFragment extends Fragment {
         //et par la même indiquer la vue à inflater (à partir des layout xml)
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int itemType) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cell_cards, viewGroup, false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cell_cards_history, viewGroup, false);
             return new MyViewHolder(view);
         }
 

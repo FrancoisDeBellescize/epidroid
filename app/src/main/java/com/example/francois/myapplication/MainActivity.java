@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
 
         String login = settings.getString("login", null);
 
+
         if (login != null) {
             EditText edit_login = (EditText) findViewById(R.id.login);
             edit_login.setText(login);
