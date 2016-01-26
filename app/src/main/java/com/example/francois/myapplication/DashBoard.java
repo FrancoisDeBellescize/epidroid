@@ -204,7 +204,7 @@ public class DashBoard extends FragmentActivity
 //            profilLayout.addView(tmp);
 //        }
 //
-        D_photo = getPhoto();
+//        D_photo = getPhoto();
 
 //        try {
 //            ImageView i = (ImageView) findViewById(R.id.profil_image);
