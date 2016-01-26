@@ -203,11 +203,11 @@ public class DashBoard extends FragmentActivity
 //            profilLayout.addView(tmp);
 //        }
 //
-//        PhotoObject photo = getPhoto();
-//
+        D_photo = getPhoto();
+
 //        try {
 //            ImageView i = (ImageView) findViewById(R.id.profil_image);
-//            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(photo.getUrl()).getContent());
+//            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(D_photo.getUrl()).getContent());
 //            i.setImageBitmap(bitmap);
 //        } catch (MalformedURLException e) {
 //            e.printStackTrace();
