@@ -1,26 +1,38 @@
 [
     {
-        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\res\\merged\\debug\\menu\\dash_board.xml",
-        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\src\\main\\res\\menu\\dash_board.xml"
-    },
-    {
         "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_main.xml",
         "source": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\src\\main\\res\\menu\\menu_main.xml"
     },
     {
-        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_main.xml",
-        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\src\\main\\res\\menu\\menu_main.xml"
+        "merged": "C:\\Users\\Naarsh\\projects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_main.xml",
+        "source": "C:\\Users\\Naarsh\\projects\\epidroid\\app\\src\\main\\res\\menu\\menu_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\res\\merged\\debug\\menu\\dash_board.xml",
+        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\src\\main\\res\\menu\\dash_board.xml"
+    },
+    {
+        "merged": "C:\\Users\\Naarsh\\projects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\menu\\activity_dash_board_drawer.xml",
+        "source": "C:\\Users\\Naarsh\\projects\\epidroid\\app\\src\\main\\res\\menu\\activity_dash_board_drawer.xml"
+    },
+    {
+        "merged": "C:\\Users\\Naarsh\\projects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\menu\\dash_board.xml",
+        "source": "C:\\Users\\Naarsh\\projects\\epidroid\\app\\src\\main\\res\\menu\\dash_board.xml"
     },
     {
         "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\menu\\activity_dash_board_drawer.xml",
         "source": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\src\\main\\res\\menu\\activity_dash_board_drawer.xml"
     },
     {
-        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\res\\merged\\debug\\menu\\activity_dash_board_drawer.xml",
-        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\src\\main\\res\\menu\\activity_dash_board_drawer.xml"
+        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_main.xml",
+        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\src\\main\\res\\menu\\menu_main.xml"
     },
     {
         "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\menu\\dash_board.xml",
         "source": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\src\\main\\res\\menu\\dash_board.xml"
+    },
+    {
+        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\res\\merged\\debug\\menu\\activity_dash_board_drawer.xml",
+        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\src\\main\\res\\menu\\activity_dash_board_drawer.xml"
     }
 ]
