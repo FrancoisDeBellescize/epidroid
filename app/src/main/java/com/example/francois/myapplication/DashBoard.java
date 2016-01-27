@@ -68,6 +68,7 @@ public class DashBoard extends FragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private InfoObject infos;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -300,5 +301,13 @@ public class DashBoard extends FragmentActivity
 
     public InfoObject getInfos() {
         return (infos);
+    }
+
+    public String getToken() {
+        if (token == null){
+            SharedPreferences settings = getSharedPreferences("connection", Context.MODE_PRIVATE);
+            token = settings.getString("token", null);
+        }
+        return (token);
     }
 }
