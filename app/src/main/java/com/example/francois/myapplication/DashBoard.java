@@ -167,8 +167,8 @@ public class DashBoard extends FragmentActivity
             fragment = new ProjetsFragment();
         } else if (id == R.id.nav_history) {
             fragment = new HistoryFragment();
-        } else if (id == R.id.nav_manage) {
-            fragment = new ModulesFragment();
+        } else if (id == R.id.nav_activity) {
+            fragment = new ActivityFragment();
         } else if (id == R.id.nav_share) {
             fragment = new ModulesFragment();
         } else if (id == R.id.nav_send) {

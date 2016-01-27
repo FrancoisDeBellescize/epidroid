@@ -2,9 +2,6 @@ package ConnectionObject;
 
 import java.util.List;
 
-/**
- * Created by Francois on 13/01/2016.
- */
 public class InfoObject {
     private String ip = null;
     private BoardObject board = null;
@@ -484,6 +481,7 @@ public class InfoObject {
     public class BoardObject {
         private List<ProjetObject> projets = null;
         private List<ModuleObject> modules = null;
+        private List<ActivityObject> activites = null;
 
         public class ModuleObject {
             String title = null;
@@ -576,12 +574,145 @@ public class InfoObject {
             }
         }
 
+        public class ActivityObject{
+            String title = null;
+            String module = null;
+            String module_link = null;
+            String module_code = null;
+            String title_link = null;
+            String timeline_start = null;
+            String timeline_end = null;
+            String timeline_barre = null;
+            String date_inscription = null;
+            String salle = null;
+            String intervenant = null;
+            String token = null;
+            String token_link = null;
+            String register_link = null;
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getModule() {
+                return module;
+            }
+
+            public void setModule(String module) {
+                this.module = module;
+            }
+
+            public String getModule_link() {
+                return module_link;
+            }
+
+            public void setModule_link(String module_link) {
+                this.module_link = module_link;
+            }
+
+            public String getModule_code() {
+                return module_code;
+            }
+
+            public void setModule_code(String module_code) {
+                this.module_code = module_code;
+            }
+
+            public String getTitle_link() {
+                return title_link;
+            }
+
+            public void setTitle_link(String title_link) {
+                this.title_link = title_link;
+            }
+
+            public String getTimeline_start() {
+                return timeline_start;
+            }
+
+            public void setTimeline_start(String timeline_start) {
+                this.timeline_start = timeline_start;
+            }
+
+            public String getTimeline_end() {
+                return timeline_end;
+            }
+
+            public void setTimeline_end(String timeline_end) {
+                this.timeline_end = timeline_end;
+            }
+
+            public String getTimeline_barre() {
+                return timeline_barre;
+            }
+
+            public void setTimeline_barre(String timeline_barre) {
+                this.timeline_barre = timeline_barre;
+            }
+
+            public String getDate_inscription() {
+                return date_inscription;
+            }
+
+            public void setDate_inscription(String date_inscription) {
+                this.date_inscription = date_inscription;
+            }
+
+            public String getSalle() {
+                return salle;
+            }
+
+            public void setSalle(String salle) {
+                this.salle = salle;
+            }
+
+            public String getIntervenant() {
+                return intervenant;
+            }
+
+            public void setIntervenant(String intervenant) {
+                this.intervenant = intervenant;
+            }
+
+            public String getToken() {
+                return token;
+            }
+
+            public void setToken(String token) {
+                this.token = token;
+            }
+
+            public String getToken_link() {
+                return token_link;
+            }
+
+            public void setToken_link(String token_link) {
+                this.token_link = token_link;
+            }
+
+            public String getRegister_link() {
+                return register_link;
+            }
+
+            public void setRegister_link(String register_link) {
+                this.register_link = register_link;
+            }
+        }
+
         public List<ProjetObject> getProjets() {
             return projets;
         }
 
         public List<ModuleObject> getModules() {
             return modules;
+        }
+
+        public List<ActivityObject> getActivites() {
+            return activites;
         }
     }
 

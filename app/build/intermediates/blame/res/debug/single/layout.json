@@ -4,24 +4,24 @@
         "source": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\notification_template_big_media_narrow.xml"
     },
     {
-        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
-        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
-    },
-    {
         "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_activity_chooser_view_list_item.xml",
         "source": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_activity_chooser_view_list_item.xml"
     },
     {
-        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\layout\\projet_fragment_content.xml",
-        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\src\\main\\res\\layout\\projet_fragment_content.xml"
+        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
+        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
+    },
+    {
+        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_tab_text.xml",
+        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.1.1\\res\\layout\\design_layout_tab_text.xml"
     },
     {
         "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\res\\merged\\debug\\layout\\nav_header_dash_board.xml",
         "source": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\src\\main\\res\\layout\\nav_header_dash_board.xml"
     },
     {
-        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_tab_text.xml",
-        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.1.1\\res\\layout\\design_layout_tab_text.xml"
+        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\layout\\projet_fragment_content.xml",
+        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\src\\main\\res\\layout\\projet_fragment_content.xml"
     },
     {
         "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\MyApplication2\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_bar_view_list_nav_layout.xml",
@@ -714,6 +714,10 @@
     {
         "merged": "C:\\Users\\Naarsh\\projects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_main.xml",
         "source": "C:\\Users\\Naarsh\\projects\\epidroid\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\layout\\prompt.xml",
+        "source": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\src\\main\\res\\layout\\prompt.xml"
     },
     {
         "merged": "C:\\Users\\Francois\\AndroidStudioProjects\\epidroid\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_toolbar.xml",
