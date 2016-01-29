@@ -1,29 +1,20 @@
 package com.example.francois.myapplication;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,12 +23,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -48,16 +36,7 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.acl.Group;
-import java.util.concurrent.CountDownLatch;
 
 import ConnectionObject.AlertsObject;
 import ConnectionObject.InfoObject;
@@ -68,7 +47,8 @@ public class DashBoard extends FragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private InfoObject infos;
-    String token;
+    private String token;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +57,7 @@ public class DashBoard extends FragmentActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        SharedPreferences settings = getSharedPreferences("connection", Context.MODE_PRIVATE);
-        String token = settings.getString("token", null);
+        String token = getToken();
         String url = "https://epitech-api.herokuapp.com/infos";
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
@@ -100,15 +79,6 @@ public class DashBoard extends FragmentActivity
                 Log.w("Error : ", "Can't get Infos");
                 Intent intent = new Intent(DashBoard.this, MainActivity.class);
                 startActivity(intent);
-            }
-        });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
 
@@ -170,10 +140,8 @@ public class DashBoard extends FragmentActivity
             fragment = new HistoryFragment();
         } else if (id == R.id.nav_activity) {
             fragment = new ActivityFragment();
-        } else if (id == R.id.nav_share) {
-            fragment = new ModulesFragment();
-        } else if (id == R.id.nav_send) {
-            fragment = new ModulesFragment();
+        } else if (id == R.id.nav_marks) {
+            fragment = new MarksFragment();
         }
         ChangeFragment(fragment);
         return true;
@@ -191,8 +159,7 @@ public class DashBoard extends FragmentActivity
     }
 
     public void LoadPhoto() {
-        SharedPreferences settings = getSharedPreferences("connection", Context.MODE_PRIVATE);
-        String token = settings.getString("token", null);
+        String token = getToken();
         String url = "https://epitech-api.herokuapp.com/photo";
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
@@ -220,8 +187,7 @@ public class DashBoard extends FragmentActivity
     }
 
     public void LoadAlerts() {
-        SharedPreferences settings = getSharedPreferences("connection", Context.MODE_PRIVATE);
-        String token = settings.getString("token", null);
+        String token = getToken();
         String url = "https://epitech-api.herokuapp.com/alerts";
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
@@ -246,7 +212,7 @@ public class DashBoard extends FragmentActivity
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
 
                 Log.w("Error : ", "Can't get Alerts");
@@ -288,23 +254,24 @@ public class DashBoard extends FragmentActivity
 
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content, fragment);
+
+            if (currentFragment == null) {
+                ft.replace(R.id.content, fragment);
+            } else {
+                currentFragment = fragment;
+                ft.detach(currentFragment);
+                ft.attach(fragment);
+            }
             ft.commit();
         }
     }
-
-//    @Override
-//    public interface OnFragmentInteractionListener(Uri uri){
-//        Toast toast = Toast.makeText(this, "Wheeee!", Toast.LENGTH_SHORT);
-//        toast.show();
-//    }
 
     public InfoObject getInfos() {
         return (infos);
     }
 
     public String getToken() {
-        if (token == null){
+        if (token == null) {
             SharedPreferences settings = getSharedPreferences("connection", Context.MODE_PRIVATE);
             token = settings.getString("token", null);
         }

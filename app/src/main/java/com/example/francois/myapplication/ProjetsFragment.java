@@ -9,14 +9,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import ConnectionObject.InfoObject;
 import Entity.Projet;
+import cz.msebera.android.httpclient.Header;
 
 public class ProjetsFragment extends Fragment {
     private RecyclerView mRecyclerView;
@@ -38,11 +52,12 @@ public class ProjetsFragment extends Fragment {
     }
 
     private void ajouterProjets() {
+        projets.clear();
         infos = ((DashBoard) getActivity()).getInfos();
         if (infos != null)
             for (InfoObject.BoardObject.ProjetObject object : infos.getBoard().getProjets()) {
                 projets.add(new Projet(object.getTitle(), object.getTimeline_start(), object.getTimeline_end(),
-                        Float.parseFloat(object.getTimeline_barre())));
+                        Float.parseFloat(object.getTimeline_barre()), object.getDate_inscription(), object.getTitle_link()));
             }
         else
             Log.w("Fragment:", "null ...");
@@ -54,6 +69,8 @@ public class ProjetsFragment extends Fragment {
         private TextView textEnd;
         private TextView textStart;
         private ProgressBar progressBar;
+        private Button button;
+        private RelativeLayout layoutCard;
 
         //itemView est la vue correspondante à 1 cellule
         public MyViewHolder(View itemView) {
@@ -65,15 +82,55 @@ public class ProjetsFragment extends Fragment {
             textEnd = (TextView) itemView.findViewById(R.id.end);
             textStart = (TextView) itemView.findViewById(R.id.start);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progress);
+            layoutCard = (RelativeLayout) itemView.findViewById(R.id.layout_card);
 
         }
 
         //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
-        public void bind(Projet projet) {
+        public void bind(final Projet projet) {
             textTitle.setText(projet.getTitle());
             textEnd.setText(projet.getEnd());
             textStart.setText(projet.getStart());
             progressBar.setProgress(Math.round(projet.getProgress()));
+
+            if (projet.getDate_inscription().compareTo("false") != 0) {
+                Log.e("PROJET", projet.getTitle() + " creation button");
+                button = new Button(getActivity());
+                button.setText("Inscription");
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams.addRule(RelativeLayout.BELOW, R.id.progress);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+                        String[] separated = projet.getTitle_link().split("/");
+
+                        String url = "https://epitech-api.herokuapp.com/project";
+                        AsyncHttpClient client = new AsyncHttpClient();
+                        RequestParams params = new RequestParams();
+                        params.put("token", ((DashBoard) getActivity()).getToken());
+                        params.put("scolaryear", separated[2]);
+                        params.put("codemodule", separated[3]);
+                        params.put("codeinstance", separated[4]);
+                        params.put("codeacti", separated[5]);
+
+                        client.post(url, params, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject errorResponse) {
+                                layoutCard.removeView(button);
+                                Toast.makeText(getActivity(), "Vous avez été inscrit au projet", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                super.onFailure(statusCode, headers, throwable, errorResponse);
+
+                                Toast.makeText(getActivity(), "Impossible de s'inscrire au projet", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                layoutCard.addView(button, layoutParams);
+            }
         }
     }
 

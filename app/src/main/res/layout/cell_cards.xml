@@ -62,14 +62,6 @@
             android:layout_below="@id/start"
             android:color="#80ab2f"
             android:layout_margin="5dp"/>
-
-        <Button
-            android:id="@+id/card_button"
-            android:layout_below="@id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Valider le token"/>
-
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

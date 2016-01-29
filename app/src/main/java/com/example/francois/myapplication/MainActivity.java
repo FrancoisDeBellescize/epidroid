@@ -32,15 +32,19 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         SharedPreferences settings = getSharedPreferences("connection", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
 
         String login = settings.getString("login", null);
+        String password = settings.getString("password", null);
 
 
         if (login != null) {
             EditText edit_login = (EditText) findViewById(R.id.login);
             edit_login.setText(login);
             findViewById(R.id.password).requestFocus();
+        }
+        if (password != null) {
+            EditText edit_password = (EditText) findViewById(R.id.password);
+            edit_password.setText(password);
         }
     }
 
@@ -62,6 +66,7 @@ public class MainActivity extends Activity {
         SharedPreferences settings = getSharedPreferences("connection", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("login", login);
+        editor.putString("password", password);
         editor.commit();
 
         error.setText("Connection ...");
@@ -99,11 +104,13 @@ public class MainActivity extends Activity {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
 
                 Gson gson = new GsonBuilder().create();
-                LoginObject tmp = gson.fromJson(errorResponse.toString(), LoginObject.class);
-                if (tmp.getError() != null) {
-                    TextView error = (TextView) findViewById(R.id.error);
-                    error.setText(tmp.getError().getMessage());
-                    Log.w("Error " + tmp.getError().getCode() + " : ", tmp.getError().getMessage());
+                if (errorResponse != null) {
+                    LoginObject tmp = gson.fromJson(errorResponse.toString(), LoginObject.class);
+                    if (tmp.getError() != null) {
+                        TextView error = (TextView) findViewById(R.id.error);
+                        error.setText(tmp.getError().getMessage());
+                        Log.w("Error " + tmp.getError().getCode() + " : ", tmp.getError().getMessage());
+                    }
                 }
             }
         });

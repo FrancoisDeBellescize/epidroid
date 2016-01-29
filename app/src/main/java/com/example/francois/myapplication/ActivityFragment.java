@@ -3,6 +3,7 @@ package com.example.francois.myapplication;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,12 +18,18 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import ConnectionObject.InfoObject;
 import Entity.Activity;
-import Entity.Module;
+import cz.msebera.android.httpclient.Header;
 
 public class ActivityFragment extends Fragment {
     private RecyclerView mRecyclerView;
@@ -44,11 +51,12 @@ public class ActivityFragment extends Fragment {
     }
 
     private void ajouterAcitivies() {
+        activities.clear();
         infos = ((DashBoard) getActivity()).getInfos();
         if (infos != null)
             for (InfoObject.BoardObject.ActivityObject object : infos.getBoard().getActivites()) {
                 activities.add(new Activity(object.getTitle(), object.getTimeline_start(), object.getTimeline_end(),
-                        Float.parseFloat(object.getTimeline_barre()), object.getToken()));
+                        Float.parseFloat(object.getTimeline_barre()), object.getToken(), object.getToken_link()));
             }
         else
             Log.w("Fragment:", "null ...");
@@ -73,12 +81,11 @@ public class ActivityFragment extends Fragment {
             textEnd = (TextView) itemView.findViewById(R.id.end);
             textStart = (TextView) itemView.findViewById(R.id.start);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progress);
-            button = (Button) itemView.findViewById(R.id.card_button);
             layoutCard = (RelativeLayout) itemView.findViewById(R.id.layout_card);
         }
 
         //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
-        public void bind(Activity activity) {
+        public void bind(final Activity activity) {
             final Context context = getActivity();
             textTitle.setText(activity.getTitle());
             textEnd.setText(activity.getEnd());
@@ -86,6 +93,10 @@ public class ActivityFragment extends Fragment {
             progressBar.setProgress(Math.round(activity.getProgress()));
 
             if (activity.getToken() != null) {
+                button = new Button(getActivity());
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams.addRule(RelativeLayout.BELOW, R.id.progress);
+                button.setText("Valider le token");
                 button.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -107,15 +118,41 @@ public class ActivityFragment extends Fragment {
                                 .setCancelable(false)
                                 .setPositiveButton("OK",
                                         new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog,int id) {
-                                                // get user input and set it to result
-                                                // edit text
-//                                                result.setText(userInput.getText());
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                String[] separated = activity.getToken_link().split("\\\\/");
+
+                                                String url = "https://epitech-api.herokuapp.com/token";
+                                                AsyncHttpClient client = new AsyncHttpClient();
+                                                RequestParams params = new RequestParams();
+                                                params.put("token", ((DashBoard) getActivity()).getToken());
+                                                params.put("scolaryear", separated[2]);
+                                                params.put("codemodule", separated[3]);
+                                                params.put("codeinstance", separated[4]);
+                                                params.put("codeacti", separated[5]);
+                                                params.put("codeinstance", separated[6]);
+                                                params.put("codeevent", separated[3]);
+                                                params.put("tokenvalidationcode", userInput.getText());
+
+                                                client.get(url, params, new JsonHttpResponseHandler() {
+                                                    @Override
+                                                    public void onSuccess(int statusCode, Header[] headers, JSONObject errorResponse) {
+
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                                        super.onFailure(statusCode, headers, throwable, errorResponse);
+
+                                                        Log.w("Error : ", "Can't valid token");
+                                                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                                                        startActivity(intent);
+                                                    }
+                                                });
                                             }
                                         })
                                 .setNegativeButton("Cancel",
                                         new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog,int id) {
+                                            public void onClick(DialogInterface dialog, int id) {
                                                 dialog.cancel();
                                             }
                                         });
@@ -128,9 +165,7 @@ public class ActivityFragment extends Fragment {
 
                     }
                 });
-
-            } else {
-                layoutCard.removeView(button);
+                layoutCard.addView(button, layoutParams);
             }
         }
     }
