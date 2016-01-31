@@ -1,13 +1,18 @@
 package com.example.francois.myapplication;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,20 +20,22 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
-import ConnectionObject.InfoObject;
-import ConnectionObject.MarksObject;
 import ConnectionObject.PlanningObject;
 import cz.msebera.android.httpclient.Header;
 
 public class PlanningFragment extends Fragment {
     private RecyclerView mRecyclerView;
-    private List<PlanningObject.Planning> plannings;
-    private InfoObject infos;
+    private List<PlanningObject> plannings = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,21 +44,27 @@ public class PlanningFragment extends Fragment {
                 R.layout.module_fragment_content, container, false);
 
 
-
-        String url = "https://epitech-api.herokuapp.com/marks";
+        String url = "https://epitech-api.herokuapp.com/planning";
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("token", ((DashBoard) getActivity()).getToken());
-        params.put("start", "2016-01-29");
-        params.put("end", "2016-01-29");
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        dateFormat.format(date);
+        params.put("start", date);
+        params.put("end", date);
 
         client.post(url, params, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject errorResponse) {
+            public void onSuccess(int statusCode, Header[] headers, JSONArray errorResponse) {
                 Gson gson = new GsonBuilder().create();
-                PlanningObject planning = gson.fromJson(errorResponse.toString(), PlanningObject.class);
-                plannings = planning.getPlanning();
-                //Collections.reverse(plannings);
+                PlanningObject[] plannings_tmp = gson.fromJson(errorResponse.toString(), PlanningObject[].class);
+                for (PlanningObject tmp : plannings_tmp) {
+                    if (tmp.getModule_registered())
+                        plannings.add(tmp);
+                }
+                Collections.reverse(plannings);
                 mRecyclerView = (RecyclerView) getView().findViewById(R.id.recyclerView);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 mRecyclerView.setAdapter(new PlanningFragment.MyAdapter(plannings));
@@ -60,7 +73,6 @@ public class PlanningFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-
             }
         });
         return rootView;
@@ -72,6 +84,8 @@ public class PlanningFragment extends Fragment {
         private TextView textContent;
         private TextView textDateStart;
         private TextView textDateEnd;
+        private TextView subscribe;
+        private RelativeLayout layoutCard;
 
         //itemView est la vue correspondante à 1 cellule
         public MyViewHolder(View itemView) {
@@ -83,23 +97,33 @@ public class PlanningFragment extends Fragment {
             textContent = (TextView) itemView.findViewById(R.id.planning_content);
             textDateStart = (TextView) itemView.findViewById(R.id.planning_date_start);
             textDateEnd = (TextView) itemView.findViewById(R.id.planning_date_end);
+            layoutCard = (RelativeLayout) itemView.findViewById(R.id.layout_card_planning);
+            subscribe = (TextView) itemView.findViewById(R.id.subscribe_planning);
         }
 
         //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
-        public void bind(final PlanningObject.Planning planning) {
+        public void bind(final PlanningObject planning) {
             textTitle.setText(planning.getActi_title());
             textContent.setText(planning.getTitle_module());
             textDateStart.setText(planning.getStart());
             textDateEnd.setText(planning.getEnd());
+
+            if (planning.getEvent_registered()) {
+                subscribe.setText("Inscrit");
+                subscribe.setTextColor(Color.GREEN);
+            } else {
+                subscribe.setText("Non inscrit");
+                subscribe.setTextColor(Color.RED);
+            }
         }
     }
 
     public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-        List<PlanningObject.Planning> list;
+        List<PlanningObject> list;
 
         //ajouter un constructeur prenant en entrée une liste
-        public MyAdapter(List<PlanningObject.Planning> list) {
+        public MyAdapter(List<PlanningObject> list) {
             this.list = list;
         }
 
@@ -114,14 +138,13 @@ public class PlanningFragment extends Fragment {
         //c'est ici que nous allons remplir notre cellule avec le texte/image de chaque MyObjects
         @Override
         public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
-            PlanningObject.Planning planning = list.get(position);
+            PlanningObject planning = list.get(position);
             myViewHolder.bind(planning);
         }
 
         @Override
         public int getItemCount() {
-        //            return list.size();
-            return 0;
+            return list.size();
         }
 
         public void reload() {

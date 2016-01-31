@@ -10,6 +10,7 @@
     app:cardElevation="8dp">
 
     <RelativeLayout
+        android:id="@+id/layout_card_planning"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -57,6 +58,16 @@
             android:textSize="12sp"
             android:paddingBottom="8dp"/>
 
+        <TextView
+            android:id="@+id/subscribe_planning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:layout_below="@id/planning_date_end"
+            android:background="?android:selectableItemBackground"
+            android:textColor="#555"
+            android:textSize="12sp"
+            android:paddingBottom="8dp"/>
 
     </RelativeLayout>
 

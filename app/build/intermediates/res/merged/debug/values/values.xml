@@ -292,6 +292,7 @@
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
     <string name="edit_login">Login</string>
     <string name="edit_password">Mot de passe</string>
+    <string name="enter_token">Entrer le token :</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
