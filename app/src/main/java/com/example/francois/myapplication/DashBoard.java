@@ -142,8 +142,10 @@ public class DashBoard extends FragmentActivity
             fragment = new ActivityFragment();
         } else if (id == R.id.nav_marks) {
             fragment = new MarksFragment();
+        } else if (id == R.id.nav_planning) {
+            fragment = new PlanningFragment();
         }
-        ChangeFragment(fragment);
+    ChangeFragment(fragment);
         return true;
     }
 
